@@ -1,0 +1,141 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @default("")
+  access_token      String? @default("")
+  expires_at        Int?
+  token_type        String? @default("")
+  scope             String? @default("")
+  id_token          String? @default("")
+  session_state     String? @default("")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model User {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  name              String    @default("")
+  password          String?
+  role              String    @default("CLINICIAN")
+  hospitalId        String?
+  avatar            String?
+  emailVerified     DateTime?
+  resetToken        String?
+  resetTokenExpiry  DateTime?
+  createdAt         DateTime  @default(now())
+  lastActive        DateTime?
+  settings          String    @default("{}")
+  accounts          Account[]
+  sessions          Session[]
+  handoffs          Handoff[]
+  auditLogs         AuditLog[]
+  notifications     Notification[]
+}
+
+model Patient {
+  id          String    @id @default(cuid())
+  bedId       String
+  wardId      String    @default("ICU")
+  name        String
+  dob         DateTime
+  sex         String
+  mrn         String
+  diagnosis   String
+  acuity      Int       @default(3)
+  codeStatus  String    @default("Full Resuscitation")
+  vitals      String    @default("{}")
+  medications String    @default("[]")
+  pendingLabs String    @default("[]")
+  allergies   String    @default("[]")
+  openActions String    @default("[]")
+  flags       Flag[]
+  handoffs    Handoff[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Handoff {
+  id              String    @id @default(cuid())
+  patientId       String
+  patient         Patient   @relation(fields: [patientId], references: [id])
+  wardId          String    @default("ICU")
+  clinicianId     String
+  clinician       User      @relation(fields: [clinicianId], references: [id])
+  transcript      String    @default("")
+  extractedData   String    @default("{}")
+  sbarNote        String    @default("{}")
+  qualityScore    Int       @default(0)
+  durationSeconds Int       @default(0)
+  fhirWriteStatus String    @default("pending")
+  createdAt       DateTime  @default(now())
+  flags           Flag[]
+  auditLogs       AuditLog[]
+}
+
+model Flag {
+  id          String    @id @default(cuid())
+  handoffId   String
+  handoff     Handoff   @relation(fields: [handoffId], references: [id])
+  patientId   String
+  patient     Patient   @relation(fields: [patientId], references: [id])
+  severity    String    @default("INFO")
+  title       String
+  description String
+  resolved    Boolean   @default(false)
+  resolvedAt  DateTime?
+  createdAt   DateTime  @default(now())
+}
+
+model AuditLog {
+  id        String    @id @default(cuid())
+  handoffId String?
+  handoff   Handoff?  @relation(fields: [handoffId], references: [id])
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  action    String
+  metadata  String    @default("{}")
+  createdAt DateTime  @default(now())
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  type      String   @default("handoff_assigned")
+  title     String
+  message   String
+  link      String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
