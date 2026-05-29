@@ -1,6 +1,6 @@
 <div align="center">
 
-![HandOffAI Banner](https://raw.githubusercontent.com/sat1828/HandOffAI/main/public/hero_banner.gif)
+![HandOffAI Banner](/hero_banner.gif)
 
 <br/>
 
@@ -37,7 +37,7 @@ That gap — between one developer's context and the next one's starting line �
 
 ### Dashboard
 
-![Dashboard](https://raw.githubusercontent.com/sat1828/HandOffAI/main/public/dashboard.gif)
+![Dashboard](/dashboard.gif)
 
 Live metrics, active task tracking, sprint burndown, and real-time activity feed — all in one view. KPIs animate on load, tasks update without refresh, and the burndown chart reflects actual story-point velocity, not a guess.
 
@@ -45,7 +45,7 @@ Live metrics, active task tracking, sprint burndown, and real-time activity feed
 
 ### Kanban Board
 
-![Kanban](https://raw.githubusercontent.com/sat1828/HandOffAI/main/public/kanban.gif)
+![Kanban](/kanban.gif)
 
 Four-column board — Backlog, In Progress, Review, Done — with per-card progress bars, sub-task counts, AI-assist badges, and live presence indicators showing exactly who is looking at what. Dragging a card across columns is smooth via Framer Motion's spring physics.
 
@@ -53,7 +53,7 @@ Four-column board — Backlog, In Progress, Review, Done — with per-card progr
 
 ### AI Handoff Generator
 
-![AI Handoff](https://raw.githubusercontent.com/sat1828/HandOffAI/main/public/ai_handoff.gif)
+![AI Handoff](/ai_handoff.gif)
 
 The centrepiece. Select a task, pick your AI model — **Claude 3 (Anthropic)** or **GPT-4o (OpenAI)** — and hit generate. The engine reads every subtask, every comment thread, the branch name, commit count, and any flagged blockers, then produces a structured brief covering what was completed, what remains, what's blocking progress, and a precise recommended starting point for the incoming developer. Takes under a second.
 
@@ -61,7 +61,7 @@ The centrepiece. Select a task, pick your AI model — **Claude 3 (Anthropic)** 
 
 ### Analytics
 
-![Analytics](https://raw.githubusercontent.com/sat1828/HandOffAI/main/public/analytics.gif)
+![Analytics](/analytics.gif)
 
 Sprint burndown line chart, individual team performance bars, daily story-point histogram, AI model usage breakdown (Claude vs GPT-4o split), and a commit activity heatmap — all powered by Recharts v3.8.1 and updating live.
 
@@ -69,7 +69,7 @@ Sprint burndown line chart, individual team performance bars, daily story-point 
 
 ### System Architecture
 
-![Architecture](https://raw.githubusercontent.com/sat1828/HandOffAI/main/public/architecture.gif)
+![Architecture](/architecture.gif)
 
 Three clean layers: Client (Next.js App Router, Zustand, Framer Motion, Socket.io client, Recharts, pdf-lib), Server (API routes, NextAuth v5, Socket.io server, AI engine, Nodemailer, Zod), and Data (Prisma v5.22, SQLite in dev → Postgres in prod).
 
